@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CurrencyConverter</string>
+    <string name="et_currency_hint">Write code for example RUB, USD, EUR...</string>
 </resources>

@@ -10,10 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_currency_rate.*
+import ru.ikon.currencyconverter.R
 import ru.ikon.currencyconverter.databinding.FragmentCurrencyRateBinding
 import ru.ikon.currencyconverter.ui.adapters.CurrencyRateAdapter
+import ru.ikon.currencyconverter.ui.adapters.OnItemClickListener
+import ru.ikon.currencyconverter.ui.converter.ConverterFragment
 
-class CurrencyRateFragment : Fragment() {
+class CurrencyRateFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentCurrencyRateBinding
     private val viewModel: CurrencyRateViewModel by viewModels()
@@ -42,14 +45,13 @@ class CurrencyRateFragment : Fragment() {
         adapter = CurrencyRateAdapter(emptyMap())
         recycler_currency.adapter = adapter
         recycler_currency.layoutManager = LinearLayoutManager(requireContext())
+        adapter.setOnItemClickListener(this)
 
         viewModel.rates.observe(viewLifecycleOwner) { rates ->
             adapter.rates = rates
             recycler_currency.adapter = adapter
             adapter.notifyDataSetChanged()
         }
-
-        viewModel.getLatestRates()
 
         et_currency.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -72,6 +74,14 @@ class CurrencyRateFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         et_currency.setText("")
+    }
+
+    override fun onItemClick(code: String, rate: Double) {
+        parentFragmentManager
+            .beginTransaction()
+            .replace(R.id.container, ConverterFragment.newInstance(code, rate))
+            .addToBackStack("")
+            .commit()
     }
 
 }

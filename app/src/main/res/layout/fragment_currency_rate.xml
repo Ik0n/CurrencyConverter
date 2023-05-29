@@ -8,6 +8,7 @@
         android:id="@+id/et_currency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/et_currency_hint"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +22,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:paddingTop="64dp"
-        android:paddingBottom="64dp"
+        android:paddingTop="@dimen/extra_large_margin"
+        android:paddingBottom="@dimen/extra_large_margin"
 
         />
 

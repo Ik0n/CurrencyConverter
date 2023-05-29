@@ -20,6 +20,10 @@ class CurrencyRateViewModel: ViewModel() {
 
     var currencies = mapOf<String, Double>()
 
+    init {
+        getLatestRates()
+    }
+
     fun getLatestRates() {
         viewModelScope.launch {
             try {
