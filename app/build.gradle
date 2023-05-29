@@ -9,7 +9,6 @@ plugins {
 
 android {
     compileSdk 33
-
     defaultConfig {
         applicationId "ru.ikon.currencyconverter"
         minSdk 24

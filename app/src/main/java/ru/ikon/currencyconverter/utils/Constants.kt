@@ -6,5 +6,7 @@ class Constants {
         const val API_KEY = "d93bf5c07670f66f7fa894f17fd8332d"
         const val LATEST_ENDPOINT = "/latest"
         const val BASE_CODE = "EUR"
+        const val CURRENCY_CODE = "code"
+        const val CURRENCY_RATE = "rate"
     }
 }
