@@ -7,15 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.ikon.currencyconverter.data.api.CurrencyService
 import ru.ikon.currencyconverter.data.repository.CurrencyRateRepository
-import ru.ikon.currencyconverter.data.repository.CurrencyRateRepositoryImplementation
-import ru.ikon.currencyconverter.utils.Constants.Companion.API_KEY
 import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrencyRateViewModel @Inject constructor(private val repository: CurrencyRateRepositoryImplementation) : ViewModel() {
+class CurrencyRateViewModel @Inject constructor(private val repository: CurrencyRateRepository) : ViewModel() {
 
     private val _rates = MutableLiveData<Map<String, Double>>()
     val rates: LiveData<Map<String, Double>>
@@ -32,7 +29,7 @@ class CurrencyRateViewModel @Inject constructor(private val repository: Currency
                 if (response.isSuccessful) {
                     _rates.postValue(response.body()?.rates ?: emptyMap())
                     response.body()?.rates?.let {
-                        (repository as CurrencyRateRepositoryImplementation).currencies = it
+                        repository.currencies = it
                     }
                 } else {
                     Log.e("CurrencyRateViewModel", "Error getting latest rates : ${response.code()}")
