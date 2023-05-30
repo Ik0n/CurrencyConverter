@@ -15,17 +15,4 @@ interface CurrencyService {
     @GET(LATEST_ENDPOINT)
     suspend fun getLatestRates(@Query("access_key") apiKey: String, @Query("base") base: String = BASE_CODE): Response<Rates>
 
-    companion object {
-
-        fun create(): CurrencyService {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            return retrofit.create(CurrencyService::class.java)
-        }
-
-    }
-
 }
