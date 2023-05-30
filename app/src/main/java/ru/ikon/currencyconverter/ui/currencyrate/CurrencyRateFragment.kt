@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_currency_rate.*
 import ru.ikon.currencyconverter.R
 import ru.ikon.currencyconverter.databinding.FragmentCurrencyRateBinding
@@ -16,10 +17,11 @@ import ru.ikon.currencyconverter.ui.adapters.CurrencyRateAdapter
 import ru.ikon.currencyconverter.ui.adapters.OnItemClickListener
 import ru.ikon.currencyconverter.ui.converter.ConverterFragment
 
+@AndroidEntryPoint
 class CurrencyRateFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentCurrencyRateBinding
-    private val viewModel: CurrencyRateViewModel by viewModels()
+    private val viewModel by viewModels<CurrencyRateViewModel>()
     private lateinit var adapter: CurrencyRateAdapter
 
     companion object {

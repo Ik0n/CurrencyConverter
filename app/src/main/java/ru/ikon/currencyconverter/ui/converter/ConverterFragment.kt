@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_converter.*
 import ru.ikon.currencyconverter.databinding.FragmentConverterBinding
 import ru.ikon.currencyconverter.utils.Constants.Companion.BASE_CODE
 import ru.ikon.currencyconverter.utils.Constants.Companion.CURRENCY_CODE
 import ru.ikon.currencyconverter.utils.Constants.Companion.CURRENCY_RATE
 
+@AndroidEntryPoint
 class ConverterFragment: Fragment() {
 
     private lateinit var binding: FragmentConverterBinding

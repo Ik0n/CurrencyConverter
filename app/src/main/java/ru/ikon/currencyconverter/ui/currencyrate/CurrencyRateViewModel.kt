@@ -5,20 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.ikon.currencyconverter.data.api.CurrencyService
+import ru.ikon.currencyconverter.data.repository.CurrencyRateRepository
+import ru.ikon.currencyconverter.data.repository.CurrencyRateRepositoryImplementation
 import ru.ikon.currencyconverter.utils.Constants.Companion.API_KEY
 import java.lang.Exception
+import javax.inject.Inject
 
-class CurrencyRateViewModel: ViewModel() {
-
-    private val currencyService = CurrencyService.create()
+@HiltViewModel
+class CurrencyRateViewModel @Inject constructor(private val repository: CurrencyRateRepositoryImplementation) : ViewModel() {
 
     private val _rates = MutableLiveData<Map<String, Double>>()
     val rates: LiveData<Map<String, Double>>
         get() = _rates
-
-    var currencies = mapOf<String, Double>()
 
     init {
         getLatestRates()
@@ -27,11 +28,11 @@ class CurrencyRateViewModel: ViewModel() {
     fun getLatestRates() {
         viewModelScope.launch {
             try {
-                val response = currencyService.getLatestRates(apiKey = API_KEY)
+                val response = repository.getLatestRates()
                 if (response.isSuccessful) {
                     _rates.postValue(response.body()?.rates ?: emptyMap())
                     response.body()?.rates?.let {
-                        currencies = it
+                        (repository as CurrencyRateRepositoryImplementation).currencies = it
                     }
                 } else {
                     Log.e("CurrencyRateViewModel", "Error getting latest rates : ${response.code()}")
@@ -43,6 +44,6 @@ class CurrencyRateViewModel: ViewModel() {
     }
 
     fun getFilterRates(text: String) {
-        _rates.postValue(currencies.filter { it.component1().contains(text, ignoreCase = true) })
+        _rates.postValue(repository.getFilterRates(text))
     }
 }
